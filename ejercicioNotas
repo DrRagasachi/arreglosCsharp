@@ -1,0 +1,180 @@
+    ///  RESPUESTA CLAUDITO!! con modificaciones propias...!!
+    /// </summary>
+    static void Main()
+    {
+        int cantidadAlumnos = 5;
+        int[] notas = new int[cantidadAlumnos];
+        
+        
+        CargarNotas(notas);
+        MostrarNotas(notas);
+
+
+        float promedio = PromedioNotas(notas);
+                   
+        int aprobados = CantidadAprobados(notas);
+
+        int desaprobados = CantidadDesaprobados(notas, aprobados);
+        
+        int notaAlta = NotaAlta(notas);
+
+        int notaBaja = NotaBaja(notas);
+
+        ReporteCurso(aprobados, promedio, notaAlta, desaprobados, notaBaja);
+
+
+
+        Console.ReadKey();
+    }
+
+    static int PedirNota(int alumno)
+    {
+        bool notaValida;
+        int nota;
+
+        do
+        {
+            Console.WriteLine($"Ingresa la nota del alumno {alumno} (entre 1 y 10):");
+
+            notaValida = int.TryParse(Console.ReadLine(), out nota)  && nota >= 1 && nota <= 10;
+
+            if (!notaValida)
+            {
+                Console.WriteLine("Nota inválida. Intentá de nuevo.");
+            }
+
+        } while (!notaValida);
+
+        return nota;
+    }
+
+    static void CargarNotas(int[] notas)
+    {
+        for (int alumno = 0; alumno < notas.Length; alumno++)
+        {
+            notas[alumno] = PedirNota(alumno + 1);
+        }
+    }
+
+    static void MostrarNotas(int[] notas)
+    {
+        for (int alumno = 0; alumno < notas.Length; alumno++)
+        {
+            // El alumno es la iteracion. como arranca en cero, para darle ubicacion en la interfaz, 
+            // necesitamos sumarle 1
+
+            Console.WriteLine($"Alumno {alumno + 1} : {notas[alumno]}");
+        }
+    }
+
+
+    // funcion calculo promedio notas cursada
+
+    static float PromedioNotas(int[] notas ) 
+    {
+    
+        int suma = 0;
+        
+        
+        for (int nota = 0; nota < notas.Length; nota++)
+        {
+            suma = notas[nota] + suma;
+            
+        }
+        
+        float promedio = suma / notas.Length;
+
+        return promedio;
+
+    }
+
+    static bool EsAprobado(int nota)
+    {
+        bool aprobado= false;
+        if (nota >= 4) 
+        {
+        
+            aprobado = true;
+        }
+        
+                    
+        return aprobado;
+    }
+
+    static int CantidadAprobados(int[] notas) 
+    {
+        int aprobados = 0;
+        
+        for (int nota = 0; nota < notas.Length; nota++)
+        {
+            if(EsAprobado(notas[nota]))
+            { 
+                
+                aprobados++; 
+            
+            }
+
+        }
+
+        return aprobados;
+    }
+
+    static int CantidadDesaprobados(int[] notas, int aprobados) 
+    {
+        int desaprobados= notas.Length-aprobados;
+
+        return desaprobados;
+    
+
+    }
+
+    static int NotaBaja(int[] notas) 
+    {
+        int notaBaja = notas[0];
+        
+        for (int alumno = 0; alumno < notas.Length; alumno++)
+        {
+
+            if (notas[alumno] < notaBaja)
+            {
+                notaBaja = notas[alumno];
+
+            }
+            
+        }
+
+        return notaBaja;
+    }
+    static int NotaAlta(int[] notas)
+    {
+        int notaAlta = notas[0];
+
+        for (int alumno = 0; alumno < notas.Length; alumno++)
+        {
+
+            if (notas[alumno] > notaAlta)
+            {
+                notaAlta = notas[alumno];
+
+            }
+
+        }
+
+        return notaAlta;
+    }
+    static void ReporteCurso(int aprobados, float promedio, int notaAlta, int desaprobados, int notaBaja) 
+    {
+        Console.WriteLine($" La cantidad de aprobados del curso es : {aprobados}, y el promedio de la cursada {promedio}");
+
+        Console.WriteLine($"La nota mas alta fue {notaAlta}");
+
+        Console.WriteLine($"La cantidad de desaprobados fue {desaprobados}");
+        
+        Console.WriteLine($"La nota mas baja fue: {notaBaja}");
+
+        
+
+
+    }
+
+}
